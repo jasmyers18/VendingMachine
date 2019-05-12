@@ -213,24 +213,24 @@ describe('Vending Machine Tests', function () {
         }
     })
 
-    // This will fail. There is no code inplemented for this
+    // This will fail. There is no code implemented for this on the website
     it('should tell you your money inserted is invalid', function () {
         var fields = [vendingPage.onesFld, vendingPage.fivesFld, vendingPage.nickelsFld, vendingPage.dimesFld, vendingPage.quartersFld]
-        var values = ["a", 0.1, -1, [1, 2, 3], {name: "Jason"}, false]
+        var values = ["a", 0.1, -1, [1, 2, 3], false]
 
-        for (let i = 0; i <= 4; i++) {
+        for (let i = 0; i < fields.length; i++) {
             for (let j = 0; j < values.length; j++) {
 
                 // Clear out the content
                 fields[i].clear()
 
-                // Enter the numbers
+                // Enter the numbers into the field
                 fields[i].sendKeys(values[j])
 
-                // Verify the numbers entered
+                // Verify the numbers entered in the field
                 expect(fields[i].getAttribute('value')).toEqual(values[j].toString())
 
-                // Verify it was reset
+                // Verify it the field was reset
                 expect(fields[i].getAttribute('value')).toEqual('0')
 
                 expect(vendingPage.messageTxt.getText()).toEqual("Invalid currency entered. Invalid currency returned.")
@@ -241,7 +241,48 @@ describe('Vending Machine Tests', function () {
         }
     })
 
-    // This will fail. There is no code inplemented for this
-    fit('should tell you there is no more soda of that type', function () {
+    // This will fail. There is no code implemented for this on the website
+    it('should tell you there is no more soda of that type', function () {
+        var change = 0.70
+        var sodaButtons = [vendingPage.cokeBtn, vendingPage.moxieBtn, vendingPage.frescaBtn, vendingPage.tabBtn]
+        var sodas = [{
+            "soda": "Coke",
+            "quantity": 5
+        },
+        {
+            "soda": "Moxie",
+            "quantity": 0
+        },
+        {
+            "soda": "Fresca",
+            "quantity": 3
+        },
+        {
+            "soda": "TaB",
+            "quantity": 1
+        }]
+
+        for (let i = 0; i < sodas.length; i++) {
+            for (let j = 0; j <= sodas[i].quantity; j++) {
+
+                // Clear out the field
+                vendingPage.onesFld.clear()
+
+                // Enter $2.00
+                vendingPage.onesFld.sendKeys('2')
+
+                // Push the soda button
+                sodaButtons[i].click()
+
+                if (j < sodas[i].quantity) {
+                    expect(vendingPage.messageTxt.getText()).toEqual(sodas[i].soda + " has been dispensed. $" + change.toFixed(2) + " has been returned to the coin return.")
+                } else {
+                    expect(vendingPage.messageTxt.getText()).toEqual("Sorry! We are out of " + sodas[i].soda + ". Your money has been returned")
+                }
+
+                // Just to reset the message
+                vendingPage.cancelBtn.click()
+            }
+        }
     })
 })

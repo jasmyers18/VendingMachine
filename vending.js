@@ -107,6 +107,9 @@ function dispenseSoda(soda) {
         clearForm()
         clearTally()
         messageEl.innerHTML = msg
+    } else if (totalPaid == 0) {
+        msg = "Please pay before you select a soda."
+        messageEl.innerHTML = msg
     } else if (change == 0) {
         msg = selectedSoda + " has been dispensed."
         totalPaid = 0
@@ -114,10 +117,7 @@ function dispenseSoda(soda) {
         clearForm()
         clearTally()
         messageEl.innerHTML = msg
-    } else if (totalPaid == 0) {
-        msg = "Please pay before you select a soda."
-        messageEl.innerHTML = msg
-    }
+    } 
 }
 
 // Cancels the transaction and resets the page

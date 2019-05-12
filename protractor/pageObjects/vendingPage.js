@@ -1,5 +1,5 @@
 var vendingPage = function() {
-    browser.get('file:///C:/Users/Drago/Desktop/vendingMachine/index.html')
+    browser.get('https://glitchitsystem.com/vendingmachine/')
 }
 
 vendingPage.prototype = Object.create({}, {
